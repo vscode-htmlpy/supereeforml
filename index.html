@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Igreja Supere — Conexão</title>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Space+Mono:wght@400;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- CSS Local (Caminho relativo - FUNCIONA NO GITHUB PAGES) -->
+  <link rel="stylesheet" href="src/css/styles.css">
+</head>
+<body>
+
+<!-- Custom Cursor -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+<div class="progress-bar" id="progressBar" style="width:0%"></div>
+
+<!-- Background SVG -->
+<div class="bg-art">
+  <svg viewBox="0 0 1200 300" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <!-- Filtro de blur para suavidade -->
+      <filter id="smoothFilter">
+        <feGaussianBlur in="SourceGraphic" stdDeviation="1.5"/>
+      </filter>
+      
+      <!-- Gradiente 1: Amarelo Claro -->
+      <linearGradient id="gradDark1" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" style="stop-color:#E8D88F;stop-opacity:0" />
+        <stop offset="50%" style="stop-color:#D4AF37;stop-opacity:0.8" />
+        <stop offset="100%" style="stop-color:#C9A84C;stop-opacity:0" />
+      </linearGradient>
+      
+      <!-- Gradiente 2: Dourado Luminoso -->
+      <linearGradient id="gradLight1" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" style="stop-color:#F4E8C1;stop-opacity:0" />
+        <stop offset="50%" style="stop-color:#E8D88F;stop-opacity:0.9" />
+        <stop offset="100%" style="stop-color:#D4AF37;stop-opacity:0" />
+      </linearGradient>
+      
+      <!-- Gradiente 3: Cobre -->
+      <linearGradient id="gradCopper" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" style="stop-color:#CD853F;stop-opacity:0" />
+        <stop offset="50%" style="stop-color:#C9A84C;stop-opacity:0.7" />
+        <stop offset="100%" style="stop-color:#A0826D;stop-opacity:0" />
+      </linearGradient>
+
+      <!-- Gradiente 4: Dourado claro -->
+      <linearGradient id="gradSoft" x1="0%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%" style="stop-color:#F4E8C1;stop-opacity:0.6" />
+        <stop offset="100%" style="stop-color:#D4AF37;stop-opacity:0.2" />
+      </linearGradient>
+    </defs>
+    
+    <!-- Linhas de fundo - muito suaves -->
+    <path class="aurora-wave-soft" d="M -50,150 Q 150,80 400,120 T 800,140 T 1250,130" stroke="url(#gradSoft)" stroke-width="0.8" fill="none" opacity="0.3" filter="url(#smoothFilter)"/>
+    <path class="aurora-wave-soft" d="M -50,160 Q 200,100 450,140 T 850,155 T 1250,145" stroke="url(#gradCopper)" stroke-width="0.7" fill="none" opacity="0.25" filter="url(#smoothFilter)"/>
+    
+    <!-- Linhas principais com glow -->
+    <g filter="url(#smoothFilter)">
+      <path class="aurora-wave" d="M -100,100 Q 200,40 500,80 T 950,110 T 1300,95" stroke="url(#gradLight1)" stroke-width="2.5" fill="none" opacity="0.65"/>
+      <path class="aurora-wave" d="M -100,115 Q 180,60 480,95 T 920,125 T 1300,115" stroke="url(#gradDark1)" stroke-width="1.8" fill="none" opacity="0.55"/>
+      <path class="aurora-wave" d="M -100,130 Q 220,85 520,115 T 980,140 T 1300,132" stroke="url(#gradLight1)" stroke-width="1.4" fill="none" opacity="0.45"/>
+    </g>
+    
+    <!-- Linhas do meio - detalhes -->
+    <path class="aurora-wave" d="M -100,145 Q 250,110 550,135 T 1000,158 T 1300,148" stroke="url(#gradCopper)" stroke-width="1" fill="none" opacity="0.35" filter="url(#smoothFilter)"/>
+    <path class="aurora-wave" d="M -50,155 Q 300,130 600,150 T 1050,170 T 1250,160" stroke="url(#gradDark1)" stroke-width="0.8" fill="none" opacity="0.28" filter="url(#smoothFilter)"/>
+    
+    <!-- Linhas finas extras para profundidade -->
+    <path class="aurora-wave" d="M 0,165 Q 350,150 700,170 T 1200,180" stroke="url(#gradSoft)" stroke-width="0.6" fill="none" opacity="0.2" filter="url(#smoothFilter)"/>
+    <path class="aurora-wave" d="M -50,175 Q 400,165 800,185 T 1250,195" stroke="url(#gradLight1)" stroke-width="0.5" fill="none" opacity="0.15" filter="url(#smoothFilter)"/>
+  </svg>
+</div>
+
+<div class="grid-bg"></div>
+
+<!-- Main Container -->
+<div class="container">
+  <form id="formulario">
+
+    <!-- Campos hidden para EmailJS -->
+    <input type="hidden" id="emailjs_name" name="name" value="">
+    <input type="hidden" id="emailjs_email" name="email" value="">
+    <textarea name="message" id="emailjs_message" style="display: none;"></textarea>
+
+    <!-- HERO SECTION -->
+    <div class="hero">
+      <div class="logo-mark">
+        <img src="src/img/supere.png" alt="Igreja batista Supere">
+      </div>
+      <h1>Bem-vindo(a) à nossa<br><em>família</em></h1>
+      <p class="subtitle">Igreja Batista Supere</p>
+      <p>&nbsp;&nbsp;<br>Queremos te conhecer melhor</p>
+    </div>
+
+    <!-- STEP 1 — Você é novo? -->
+    <div class="step active" id="step1">
+      <div class="step-label">
+        <span class="step-num">01</span>
+        <span class="step-title">Você é novo por aqui?</span>
+      </div>
+
+      <div class="options" id="originOptions">
+        <label class="option-card" onclick="selectOption(this, 'origin', 'familia')">
+          <input type="radio" name="origin" value="familia">
+          <div class="option-label">
+            <span>Já faço parte da família Supere</span>
+            <span class="check"></span>
+          </div>
+        </label>
+        <label class="option-card" onclick="selectOption(this, 'origin', 'novo')">
+          <input type="radio" name="origin" value="novo">
+          <div class="option-label">
+            <span>Sim, sou novo(a)</span>
+            <span class="check"></span>
+          </div>
+        </label>
+      </div>
+      <p class="error-msg" id="err-origin">Por favor, selecione uma opção acima.</p>
+
+      <!-- Perguntas para todos -->
+      <div class="divider"><span>sobre você</span></div>
+      
+      <div class="field">
+        <label>Como você conheceu a nossa igreja?</label>
+      </div>
+      <div class="options" id="comoConheceuOptions">
+        <label class="option-card" onclick="selectOption(this, 'comoConheceuTipo', 'redesocial')">
+          <input type="radio" name="comoConheceuTipo" value="redesocial">
+          <div class="option-label">
+            <span>Redes Sociais</span>
+            <span class="check"></span>
+          </div>
+        </label>
+        <label class="option-card" onclick="selectOption(this, 'comoConheceuTipo', 'indicacao')">
+          <input type="radio" name="comoConheceuTipo" value="indicacao">
+          <div class="option-label">
+            <span>Conhecidos/amigos me fizeram convite</span>
+            <span class="check"></span>
+          </div>
+        </label>
+        <label class="option-card" onclick="selectOption(this, 'comoConheceuTipo', 'internet')">
+          <input type="radio" name="comoConheceuTipo" value="internet">
+          <div class="option-label">
+            <span>Busca na Internet</span>
+            <span class="check"></span>
+          </div>
+        </label>
+        <label class="option-card" onclick="selectOption(this, 'comoConheceuTipo', 'proximidade')">
+          <input type="radio" name="comoConheceuTipo" value="proximidade">
+          <div class="option-label">
+            <span>Eu moro próximo</span>
+            <span class="check"></span>
+          </div>
+        </label>
+        <label class="option-card" onclick="selectOption(this, 'comoConheceuTipo', 'outro')">
+          <input type="radio" name="comoConheceuTipo" value="outro">
+          <div class="option-label">
+            <span>Outros</span>
+            <span class="check"></span>
+          </div>
+        </label>
+      </div>
+
+      <div class="conditional" id="cond-comoConheceu">
+        <div class="divider"><span>especifique mais</span></div>
+        <div class="options" id="comoConheceuSpecOptions">
+          <!-- Opções para Redes Sociais -->
+          <label class="option-card" id="spec-instagram" onclick="selectOption(this, 'comoConheceuSpec', 'instagram')" style="display: none;">
+            <input type="radio" name="comoConheceuSpec" value="instagram">
+            <div class="option-label">
+              <span>Instagram</span>
+              <span class="check"></span>
+            </div>
+          </label>
+          <label class="option-card" id="spec-facebook" onclick="selectOption(this, 'comoConheceuSpec', 'facebook')" style="display: none;">
+            <input type="radio" name="comoConheceuSpec" value="facebook">
+            <div class="option-label">
+              <span>Facebook</span>
+              <span class="check"></span>
+            </div>
+          </label>
+          <label class="option-card" id="spec-youtube" onclick="selectOption(this, 'comoConheceuSpec', 'youtube')" style="display: none;">
+            <input type="radio" name="comoConheceuSpec" value="youtube">
+            <div class="option-label">
+              <span>YouTube</span>
+              <span class="check"></span>
+            </div>
+          </label>
+          <label class="option-card" id="spec-outrarede" onclick="selectOption(this, 'comoConheceuSpec', 'outrarede')" style="display: none;">
+            <input type="radio" name="comoConheceuSpec" value="outrarede">
+            <div class="option-label">
+              <span>Outra Rede Social</span>
+              <span class="check"></span>
+            </div>
+          </label>
+          
+          <!-- Opções para Indicação -->
+          <label class="option-card" id="spec-amigo" onclick="selectOption(this, 'comoConheceuSpec', 'amigo')" style="display: none;">
+            <input type="radio" name="comoConheceuSpec" value="amigo">
+            <div class="option-label">
+              <span>Por um Amigo/Conhecido</span>
+              <span class="check"></span>
+            </div>
+          </label>
+          <label class="option-card" id="spec-familia" onclick="selectOption(this, 'comoConheceuSpec', 'familia')" style="display: none;">
+            <input type="radio" name="comoConheceuSpec" value="familia">
+            <div class="option-label">
+              <span>Por Familia</span>
+              <span class="check"></span>
+            </div>
+          </label>
+          
+          <!-- Opções para Proximidade -->
+          <label class="option-card" id="spec-proximidade" onclick="selectOption(this, 'comoConheceuSpec', 'proximidade')" style="display: none;">
+            <input type="radio" name="comoConheceuSpec" value="proximidade">
+            <div class="option-label">
+              <span>Supere é próxima da minha casa</span>
+              <span class="check"></span>
+            </div>
+          </label>
+          <label class="option-card" id="spec-amigolug" onclick="selectOption(this, 'comoConheceuSpec', 'amigolug')" style="display: none;">
+            <input type="radio" name="comoConheceuSpec" value="amigolug">
+            <div class="option-label">
+              <span>Por um conhecido/amigo de lá</span>
+              <span class="check"></span>
+            </div>
+          </label>
+        </div>
+        
+        <div class="field">
+          <label>Quer compartilhar mais detalhes? <span style="color: var(--muted); font-weight: 400;">(Opcional)</span></label>
+          <textarea id="comoConheceuDesc" placeholder="" maxlength="300" oninput="updateCharCount(this)"></textarea>
+          <p class="field-hint" id="charCount">0 / 300 caracteres</p>
+          <div style="height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent); margin-top: 8px; opacity: 0.3;"></div>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn" onclick="goToStep(2)"><span>Continuar</span><span class="btn-arrow">→</span></button>
+      </div>
+    </div>
+
+    <!-- STEP 2 — Dados pessoais -->
+    <div class="step" id="step2">
+      <div class="step-label">
+        <span class="step-num">02</span>
+        <span class="step-title">Nos diga quem você é</span>
+      </div>
+
+      <div class="field">
+        <label>Seu nome completo</label>
+        <input type="text" id="nomeCompleto" placeholder="">
+      </div>
+      <div class="field">
+        <label>Sua idade</label>
+        <input type="number" id="idade" placeholder="" min="1" max="120">
+      </div>
+      <div class="field">
+        <label>Data de aniversário</label>
+        <input type="date" id="aniversario" style="color-scheme: dark;">
+      </div>
+
+      <div class="btn-row">
+        <button class="btn" onclick="goToStep(3)"><span>Continuar</span><span class="btn-arrow">→</span></button>
+      </div>
+    </div>
+
+    <!-- STEP 3 — Grupo Supere -->
+    <div class="step" id="step3">
+      <div class="step-label">
+        <span class="step-num">03</span>
+        <span class="step-title">Grupo Supere</span>
+      </div>
+
+      <div class="section-sep"><span>você faz parte?</span></div>
+
+      <div class="field" style="margin-bottom:8px;">
+        <label>Você faz parte de um grupo supere?</label>
+      </div>
+      <div class="toggle-group">
+        <button class="toggle-btn" id="grupo-sim" onclick="toggleBtn('grupo', 'sim')"><span>Sim, faço parte</span></button>
+        <button class="toggle-btn" id="grupo-nao" onclick="toggleBtn('grupo', 'nao')"><span>Não</span></button>
+      </div>
+      <p class="error-msg" id="err-grupo">Por favor, selecione uma opção.</p>
+
+      <!-- Se SIM - Pedir info do líder -->
+      <div class="conditional" id="cond-grupo-sim">
+        <div class="field">
+          <label>Quem é o líder do seu grupo?</label>
+          <input type="text" id="nomeGrupoLider" placeholder="">
+        </div>
+      </div>
+
+      <!-- Se NÃO - Perguntar se quer fazer parte -->
+      <div class="conditional" id="cond-grupo-nao">
+        <div class="field" style="margin-bottom:8px;">
+          <label>Você gostaria de fazer parte?</label>
+        </div>
+        <div class="toggle-group">
+          <button class="toggle-btn" id="querGrupo-sim" onclick="toggleBtn('querGrupo', 'sim')"><span>Sim, tenho interesse</span></button>
+          <button class="toggle-btn" id="querGrupo-nao" onclick="toggleBtn('querGrupo', 'nao')"><span>Não, obrigado(a)</span></button>
+        </div>
+        
+        <!-- Se SIM em "quer fazer parte" -->
+        <div class="conditional" id="cond-quer-grupo-sim">
+          <div class="divider"><span>entraremos em contato</span></div>
+          <div class="field">
+            <label>Seu WhatsApp / Telefone</label>
+            <div class="phone-wrap">
+              <span class="prefix">+55</span>
+              <input type="tel" id="telefoneMembro" placeholder="(11) 99999-9999" oninput="formatPhone(this)">
+            </div>
+          </div>
+        </div>
+
+        <!-- Celebrações -->
+        <div class="conditional" id="cond-celebracoes">
+          <div class="divider"><span>celebrações</span></div>
+          <div class="field">
+            <label>Quais celebrações você gostaria de acompanhar?</label>
+            <textarea id="diasCelebracoes" placeholder="Terça - Campanha da conquista 19:30&#10;Quinta - Celebração a restauração 19:30&#10;Domingo - Celebração da manhã 09:00&#10;Domingo - Celebração da noite 18:00" style="min-height: 80px;"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn" onclick="goToStep(4)"><span>Continuar</span><span class="btn-arrow">→</span></button>
+      </div>
+    </div>
+
+    <!-- STEP 4 — Notificações -->
+    <div class="step" id="step4">
+      <div class="step-label">
+        <span class="step-num">04</span>
+        <span class="step-title">Fique conectado(a)</span>
+      </div>
+
+      <div class="field" style="margin-bottom:8px;">
+        <label>Deseja receber notificações via WhatsApp?</label>
+      </div>
+      <div class="toggle-group">
+        <button class="toggle-btn" id="notify-sim" onclick="toggleBtn('notify', 'sim')"><span>Sim, receber notificações</span></button>
+        <button class="toggle-btn" id="notify-nao" onclick="toggleBtn('notify', 'nao')"><span>Não, obrigado(a)</span></button>
+      </div>
+      <p class="error-msg" id="err-notify">Por favor, selecione uma opção.</p>
+
+      <div class="conditional" id="cond-notify">
+        <div class="field">
+          <label>Seu WhatsApp / Telefone</label>
+          <div class="phone-wrap">
+            <span class="prefix">+55</span>
+            <input type="tel" id="telefone" placeholder="(11) 99999-9999" oninput="formatPhone(this)">
+          </div>
+        </div>
+      </div>
+
+      <div class="divider"><span>redes sociais</span></div>
+
+      <div class="social-links-form">
+        <p style="font-size: 13px; color: var(--muted); margin-bottom: 20px;">Nos acompanhe nas redes sociais para ficar por dentro de tudo:</p>
+        
+        <div class="social-link-item">
+          <div class="social-icon instagram-icon">
+            <i class="fab fa-instagram"></i>
+          </div>
+          <div class="social-info">
+            <label>Instagram</label>
+            <a href="https://www.instagram.com/ibsupere/" target="_blank" rel="noopener noreferrer" class="social-url">@ibsupere</a>
+          </div>
+        </div>
+
+        <div class="social-link-item">
+          <div class="social-icon facebook-icon">
+            <i class="fab fa-facebook"></i>
+          </div>
+          <div class="social-info">
+            <label>Facebook</label>
+            <a href="https://www.facebook.com/ibsupere" target="_blank" rel="noopener noreferrer" class="social-url">Igreja Batista Supere</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn" onclick="submitForm()"><span>Enviar</span><span class="btn-arrow"></span></button>
+      </div>
+    </div>
+
+    <!-- SUCCESS - THANK YOU PAGE -->
+    <div class="step" id="stepThankYou">
+      <div class="success-screen">
+        <div class="success-icon">✓</div>
+        <h2>Obrigado por<br>preencher o<br><em>formulário!</em></h2>
+        
+        <div class="success-message">
+          <p>Obrigado por preencher o formulário.<br>
+          Em breve entraremos em contato com você.</p>
+        </div>
+
+        <div class="btn-row" style="margin-top: 40px;">
+          <button class="btn" onclick="goToThankYouSummary()"><span>Ver resumo</span><span class="btn-arrow">→</span></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- SUCCESS - SUMMARY PAGE -->
+    <div class="step" id="stepSuccess">
+      <div class="success-screen">
+        <div class="success-icon">✓</div>
+        <h2>Resposta enviada<br>com <em>sucesso!</em></h2>
+        
+        <div class="success-message">
+          <p>Obrigado por preencher o formulário.<br>
+          Em breve entraremos em contato com você.</p>
+        </div>
+
+        <div class="summary-header">
+          <h3>Resumo das informações</h3>
+        </div>
+
+        <div class="detail-card" id="summaryCard">
+          <!-- preenchido via JS -->
+        </div>
+
+        <div class="connected-section">
+          <h3>Ficar Conectado</h3>
+          <div class="social-links">
+            <a href="https://www.instagram.com/ibsupere/" target="_blank" rel="noopener noreferrer" class="social-link instagram">
+              <span>Instagram</span>
+            </a>
+            <a href="https://www.facebook.com/ibsupere" target="_blank" rel="noopener noreferrer" class="social-link facebook">
+              <span>Facebook</span>
+            </a>
+          </div>
+        </div>
+
+        <p style="font-size:10px; letter-spacing:0.15em; color:rgba(201,168,76,0.5); text-transform:uppercase;">
+         &nbsp;·&nbsp; Que Deus te abençoe!
+        </p>
+      </div>
+    </div>
+  </form>
+</div><!-- /container -->
+
+<!-- JavaScript Local (Caminho relativo - FUNCIONA NO GITHUB PAGES) -->
+<script src="src/js/main.js"></script>
+
+<!-- EmailJS CDN -->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+
+<!-- EmailJS Configuration -->
+<script>
+  // ===== EMAILJS SETUP =====
+  const EMAILJS_PUBLIC_KEY = "SUA_PUBLIC_KEY";
+  const EMAILJS_SERVICE_ID = "service_ma7u1y4";
+  const EMAILJS_TEMPLATE_ID = "TEMPLATE_ID";
+
+  emailjs.init(EMAILJS_PUBLIC_KEY);
+
+  document.getElementById('formulario').addEventListener('submit', function(e) {
+    e.preventDefault();
+  });
+
+  // Função para enviar via EmailJS
+  function enviarViaEmailJS() {
+    const formulario = document.getElementById('formulario');
+    
+    const comoConheceuMap = {
+      'redesocial': 'Redes Sociais',
+      'indicacao': 'Indicação de Amigo/Família',
+      'internet': 'Busca na Internet',
+      'proximidade': 'Igreja Próxima a Mim',
+      'outro': 'Outro'
+    };
+    
+    const comoConheceuSpecMap = {
+      'instagram': 'Instagram',
+      'facebook': 'Facebook',
+      'youtube': 'YouTube',
+      'outrarede': 'Outra Rede Social',
+      'amigo': 'Por um Amigo/Conhecido',
+      'familia': 'Por Família',
+      'proximidade': 'Supere é próxima da minha casa',
+      'amigolug': 'Por um conhecido/amigo de lá'
+    };
+    
+    const comoConheceuLabel = state.comoConheceuTipo ? comoConheceuMap[state.comoConheceuTipo] : '—';
+    const comoConheceuSpecLabel = state.comoConheceuSpec ? comoConheceuSpecMap[state.comoConheceuSpec] : '—';
+    
+    document.getElementById('emailjs_name').value = state.nome || 'Visitante';
+    document.getElementById('emailjs_email').value = state.telefone || 'sem-email';
+    
+    const mensagem = `
+Novo Visitante - Grupo Supere
+
+--- DADOS PESSOAIS ---
+Nome: ${state.nome || '—'}
+Idade: ${state.idade || '—'}
+Aniversário: ${state.aniversario || '—'}
+Telefone/WhatsApp: ${state.telefone ? '+55 ' + state.telefone : '—'}
+
+--- COMO CHEGOU ATÉ NÓS ---
+Origem: ${state.origin === 'novo' ? 'Primeiro acesso' : 'Já é da família'}
+Como conheceu (tipo): ${comoConheceuLabel}
+Especificação: ${comoConheceuSpecLabel}
+Detalhes adicionais: ${state.comoConheceuDesc || '—'}
+
+--- GRUPO SUPERE ---
+Faz parte de um grupo? ${state.grupo === 'sim' ? 'Sim' : 'Não'}
+${state.grupo === 'sim' ? `Líder do grupo: ${state.nomeGrupoLider || '—'}` : ''}
+${state.grupo === 'nao' ? `Gostaria de fazer parte? ${state.querGrupo === 'sim' ? 'Sim' : state.querGrupo === 'nao' ? 'Não' : '—'}` : ''}
+${state.querGrupo === 'sim' ? `Telefone para contato: ${state.telefoneMembro || '—'}` : ''}
+Dias de celebrações: ${state.diasCelebracoes || '—'}
+
+--- NOTIFICAÇÕES ---
+Receber notificações: ${state.notify === 'sim' ? 'Sim' : 'Não'}
+    `.trim();
+    
+    document.getElementById('emailjs_message').value = mensagem;
+    
+    emailjs.sendForm(
+      EMAILJS_SERVICE_ID,
+      EMAILJS_TEMPLATE_ID,
+      formulario
+    ).then(function(response) {
+      console.log('Email enviado com sucesso!', response);
+    }, function(error) {
+      console.log('Erro ao enviar email:', error);
+    });
+  }
+</script>
+
+</body>
+</html>

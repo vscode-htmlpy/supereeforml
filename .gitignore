@@ -1,0 +1,44 @@
+# Dependencies
+node_modules/
+.npm
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*.swn
+*.sublime-*
+.DS_Store
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Build outputs
+dist/
+build/
+*.log
+
+# OS files
+Thumbs.db
+.DS_Store
+.DS_Store?
+._*
+
+# IDE settings
+*.iml
+.gradle
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+
+# Temp files
+*.tmp
+*~
+.~*

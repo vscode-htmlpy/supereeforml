@@ -1,0 +1,26 @@
+{
+  "name": "igreja-batista-supere",
+  "version": "1.0.0",
+  "description": "Formulário interativo para recepção de visitantes da Igreja Batista Supere",
+  "main": "index.html",
+  "scripts": {
+    "dev": "python -m http.server 8000",
+    "start": "python -m http.server 8000"
+  },
+  "keywords": [
+    "church",
+    "form",
+    "conexão",
+    "supere",
+    "interactive",
+    "responsive"
+  ],
+  "author": "Igreja Batista Supere",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/seu-usuario/supere.git"
+  },
+  "devDependencies": {},
+  "dependencies": {}
+}
